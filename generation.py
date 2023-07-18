@@ -1,4 +1,3 @@
-from flask import Flask, request
 import requests
 import json
 import os
@@ -7,14 +6,28 @@ weather_key = os.getenv('WEATHER_KEY')
 maps_key = os.getenv('MAPS_KEY')
 
 '''
+Determine whether the destination or origin is invalid (or both) and return the appropriate error message.
+'''
+def check_endpoints(waypoints):
+    if waypoints[0]["geocoder_status"] == "ZERO_RESULTS" and waypoints[1]["geocoder_status"] == "ZERO_RESULTS":
+        return {"results": "Check origin and destination. No route found."}
+    if waypoints[1]["geocoder_status"] == "ZERO_RESULTS":
+        return {"results": "Check destination. No route found."}
+    if waypoints[0]["geocoder_status"] == "ZERO_RESULTS":
+        return {"results": "Check origin. No route found."}  
+
+'''
 Returns coordinates (latitude,longitude pairs) for cities along route between two given locations (orig, dest)
 '''
 def get_trip_coordinates(orig,dest):
-    my_dictionary = json.loads(requests.get(
+    directions = json.loads(requests.get(
         f"https://maps.googleapis.com/maps/api/directions/json?origin={orig}&destination={dest}&key={maps_key}").content)
-    if not my_dictionary["routes"]:
-        return None
-    steps = my_dictionary["routes"][0]["legs"][0]["steps"]
+    try:
+        steps = directions["routes"][0]["legs"][0]["steps"]
+    except:
+        # determine whether the origin, destination, or both are invalid
+        return check_endpoints(directions["geocoded_waypoints"]) 
+    
     start_coords, end_coords = [], []
     for s in steps:
         start_coords.append(s["start_location"])
@@ -67,5 +80,9 @@ def get_weather(locations):
         weather = json.loads(
             requests.get(f"http://api.weatherapi.com/v1/current.json?key={weather_key}&q={zipCode}").content)
         # add the city name along with current weather conditions
-        weather_conditions.append((loc[1], weather["current"]["condition"]["text"]))
+        try:
+            weather_conditions.append((zipCode, loc[1], weather["current"]["condition"]["text"]))
+        except:
+            return None
     return weather_conditions
+
