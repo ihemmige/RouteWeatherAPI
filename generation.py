@@ -54,7 +54,7 @@ def generate_locations(coordinates_list):
         # get city name (ex. Houston, Texas, USA)
         location_name = google_location["plus_code"]["compound_code"]
         location_name = location_name[location_name.find(" ") + 1:]
-        
+
         # get the zipcode for the coordinate
         results = google_location["results"][0]["address_components"]
         for r in results:
@@ -81,14 +81,14 @@ Gets the weather for each location (using the zip codes) and returns a list of l
 def get_weather(locations):
     weather_conditions = []
     for loc in locations:
-        zipCode = loc[0]
+        zip_code = loc[0]
         weather = json.loads(
-            requests.get(f"http://api.weatherapi.com/v1/current.json?key={weather_key}&q={zipCode}").content)
+            requests.get(f"http://api.weatherapi.com/v1/current.json?key={weather_key}&q={zip_code}").content)
         # add the city name along with current weather conditions and zip code
         try:
             weather_conditions.append(
                 {
-                    "zipCode": zipCode,
+                    "zip_code": zip_code,
                     "city": loc[1],
                     "weather": weather["current"]["condition"]["text"]
                 }
