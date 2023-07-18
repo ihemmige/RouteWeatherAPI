@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response, make_response
 from generation import get_trip_coordinates, generate_locations, get_weather
 
 app = Flask(__name__)
@@ -21,4 +21,8 @@ def index():
     weather = get_weather(locations_list)
     if type(weather) != list:
         return {"results": weather}, 400
-    return {"results": weather}
+
+    response = make_response({"result": weather})
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    # return {"results": weather}, 200
+    return response, 200
