@@ -54,7 +54,7 @@ def generate_locations(coordinates_list):
         # get city name (ex. Houston, Texas, USA)
         location_name = google_location["plus_code"]["compound_code"]
         location_name = location_name[location_name.find(" ") + 1:]
-
+        
         # get the zipcode for the coordinate
         results = google_location["results"][0]["address_components"]
         for r in results:
@@ -62,6 +62,10 @@ def generate_locations(coordinates_list):
             if r["types"][0] == "postal_code":
                 location_zip = r["long_name"]
                 break
+        
+        # check if the zipcode is valid (5 digits) to ensure within United States
+        if len(location_zip) != 5:
+            return "One or more locations along route outside United States."
 
         # prevent duplication of cities and/or zipcodes; maintain order in which cities will be visited on route
         if location_name not in seen_cities and (location_zip, location_name) not in locations:

@@ -15,6 +15,8 @@ def index():
         return {"results": coordinates}, 400
     
     locations_list = generate_locations(coordinates)
+    if type(locations_list) != list:
+        return {"results": locations_list}, 400
 
     weather = get_weather(locations_list)
     if type(weather) != list:
