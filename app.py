@@ -9,11 +9,14 @@ def index():
     destination = request.args.get('destination')
     if not origin or not destination:
         return {"results": "Origin or destination not provided"}, 400
+    
     coordinates = get_trip_coordinates(origin,destination)
     if type(coordinates) != list:
-        return coordinates, 400
+        return {"results": coordinates}, 400
+    
     locations_list = generate_locations(coordinates)
+
     weather = get_weather(locations_list)
-    if not weather:
-        return {"results": "No weather found. Location outside United States."}, 400
+    if type(weather) != list:
+        return {"results": weather}, 400
     return {"results": weather}

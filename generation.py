@@ -6,15 +6,16 @@ weather_key = os.getenv('WEATHER_KEY')
 maps_key = os.getenv('MAPS_KEY')
 
 '''
-Determine whether the destination or origin is invalid (or both) and return the appropriate error message.
+Determine whether the destination or origin is invalid (or both) and return the appropriate error message. Otherwise, no route exists between the two locations.
 '''
 def check_endpoints(waypoints):
     if waypoints[0]["geocoder_status"] == "ZERO_RESULTS" and waypoints[1]["geocoder_status"] == "ZERO_RESULTS":
-        return {"results": "Check origin and destination. No route found."}
-    if waypoints[1]["geocoder_status"] == "ZERO_RESULTS":
-        return {"results": "Check destination. No route found."}
+        return "Check origin and destination. No route found."
     if waypoints[0]["geocoder_status"] == "ZERO_RESULTS":
-        return {"results": "Check origin. No route found."}  
+        return "Check origin. No route found."
+    if waypoints[1]["geocoder_status"] == "ZERO_RESULTS":
+        return "Check destination. No route found."
+    return "No route found between origin and destination."
 
 '''
 Returns coordinates (latitude,longitude pairs) for cities along route between two given locations (orig, dest)
@@ -25,7 +26,7 @@ def get_trip_coordinates(orig,dest):
     try:
         steps = directions["routes"][0]["legs"][0]["steps"]
     except:
-        # determine whether the origin, destination, or both are invalid
+        # determine whether the origin, destination, or both are invalid. Otherwise, there is no route for these locations.
         return check_endpoints(directions["geocoded_waypoints"]) 
     
     start_coords, end_coords = [], []
@@ -79,10 +80,15 @@ def get_weather(locations):
         zipCode = loc[0]
         weather = json.loads(
             requests.get(f"http://api.weatherapi.com/v1/current.json?key={weather_key}&q={zipCode}").content)
-        # add the city name along with current weather conditions
+        # add the city name along with current weather conditions and zip code
         try:
-            weather_conditions.append((zipCode, loc[1], weather["current"]["condition"]["text"]))
+            weather_conditions.append(
+                {
+                    "zipCode": zipCode,
+                    "city": loc[1],
+                    "weather": weather["current"]["condition"]["text"]
+                }
+            )
         except:
-            return None
+            return "No weather found for one or more locations along route."
     return weather_conditions
-
