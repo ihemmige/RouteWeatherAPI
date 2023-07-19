@@ -14,7 +14,7 @@ def get_current():
             response = make_response({"result": "Origin or destination not provided"})
             break
         
-        coordinates = get_trip_coordinates(origin,destination)
+        coordinates = get_trip_coordinates(origin,destination,time.time())
         if type(coordinates) != list:
             response = make_response({"result": coordinates})
             break

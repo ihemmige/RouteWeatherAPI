@@ -10,8 +10,6 @@ maps_key = os.getenv('MAPS_KEY')
 '''
 Determine whether the destination or origin is invalid (or both) and return the appropriate error message. Otherwise, no route exists between the two locations.
 '''
-
-
 def check_endpoints(waypoints):
     if waypoints[0]["geocoder_status"] == "ZERO_RESULTS" and waypoints[1]["geocoder_status"] == "ZERO_RESULTS":
         return "Check origin and destination. No route found."
@@ -25,8 +23,6 @@ def check_endpoints(waypoints):
 '''
 Returns coordinates (latitude,longitude pairs) for cities along route between two given locations (orig, dest)
 '''
-
-
 def get_trip_coordinates(orig, dest, start_time):
 
     directions = json.loads(requests.get(
@@ -58,8 +54,6 @@ def get_trip_coordinates(orig, dest, start_time):
 '''
 Generate city-zip code pairs for each of the coordinates given (coordinates_list).
 '''
-
-
 def generate_locations(coordinates_list):
     # prevent duplicates of multiple coordinates mapping to same zipcode AND city name
     locations = set()
@@ -150,7 +144,7 @@ def get_forecasted_weather(locations, start_time):
                     "city": cur_location,
                     "weather": weather_val[0]["text"],
                     "image_code": image_link,
-                    "time": loc[2] # provide the exact predicted time of arrival instead of the rounded hourly time (both epoch time)
+                    "time": loc[2], # provide the exact predicted time of arrival instead of the rounded hourly time (both epoch time)
                 }
             )
         except:
