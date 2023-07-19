@@ -82,18 +82,19 @@ def get_weather(locations):
     weather_conditions = []
     for loc in locations:
         zip_code = loc[0]
-        
+        cur_location = loc[1][:loc[1].find(",") + 4]
         weather = json.loads(
             requests.get(f"http://api.weatherapi.com/v1/current.json?key={weather_key}&q={zip_code}").content)
         # add the city name along with current weather conditions and zip code
         try:
-            curLocation = weather["location"]["name"] + ", " + weather["location"]["region"]
+            image_link = weather["current"]["condition"]["icon"][2:]
+            image_link = image_link[image_link.find('/') + 1:]
             weather_conditions.append(
                 {
                     "zip_code": zip_code,
-                    "city": curLocation,
+                    "city": cur_location,
                     "weather": weather["current"]["condition"]["text"],
-                    "image_code": weather["current"]["condition"]["icon"][2:]
+                    "image_code": image_link
                 }
             )
         except:
