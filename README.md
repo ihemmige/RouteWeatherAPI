@@ -9,8 +9,8 @@ GET https://routeweatherapi.azurewebsites.net/forecast?origin=ORIGIN&destination
 These endpoint includes required parameters ORIGIN and DESTINATION, and an optional parameter START_TIME, where START_TIME is the time at which the trip would begin (in epoch time, must be an integer).
 A sample 200 response is below:
 {
-    "result": [
-        {
+    "result": [{
+    
             "city": "Franklin Township, NJ",
             "image_code": "weather/64x64/day/113.png",
             "time": 1689809100,
