@@ -46,7 +46,19 @@ def get_forecast():
         origin = request.args.get('origin')
         destination = request.args.get('destination')
         start_time = request.args.get('start_time')
-        if start_time: start_time = int(start_time)
+        if start_time:
+            try:
+                start_time = int(start_time)
+                if start_time < time.time():
+                    response = make_response({"result": "Start time is in the past"})
+                    break
+                elif start_time > time.time() + 345600:
+                    response = make_response({"result": "Start time is more than 4 days in the future"})
+                    break
+            except:
+                response = make_response({"result": "Start time is not a valid integer"})
+                break
+        
         if not origin or not destination:
             response = make_response({"result": "Origin or destination not provided"})
             break
