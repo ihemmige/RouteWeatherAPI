@@ -105,6 +105,7 @@ weather at the time the user will be at the location.
 def get_forecasted_weather(locations):
     weather_conditions = []
     for loc in locations:
+        print(loc)
         zip_code = loc[0]  # zip code
         # city name (ex. Houston, Texas)
         cur_location = loc[1][:loc[1].find(",") + 4]
@@ -139,7 +140,8 @@ def get_forecasted_weather(locations):
                     break
                 else: # the index is 24, so we go onto the next day
                     continue
-        except:
+        except Exception as e:
+            print(e)
             return "No weather found for one or more locations along route."
 
         try:
@@ -154,10 +156,13 @@ def get_forecasted_weather(locations):
                     "time": loc[2] # provide the exact predicted time of arrival instead of the rounded hourly time (both epoch time)
                 }
             )
-        except:
+        except Exception as e:
+            print(e)
             return "No weather found for one or more locations along route."
+        
+        weather_conditions[0] = get_current_weather([locations[0]])[0]
+        print(weather_conditions)
     return weather_conditions
-
 
 '''
 Gets the weather for each location (using the zip codes) and returns a list of locations with their current weather.
