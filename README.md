@@ -68,7 +68,7 @@ This second endpoint includes all the same data except for the time, but the dif
 
 For both endpoints, 400 responses can be returned for a variety of bad request inputs.
 
-Further iterations on this API will involve providing an easier integrated method with a map for the user to compare routes and use weather forecasts to provide adjusted driving time estimates (in conjunction with my RouteWeatherFrontend (https://github.com/ihemmige/RouteWeatherFrontend).
+Further iterations on this API will involve using weather forecasts to provide adjusted driving time estimates and providing an easier integrated method with a map for the user to compare routes (in conjunction with my RouteWeatherFrontend (https://github.com/ihemmige/RouteWeatherFrontend).
 
 Note:
 Uses Google Maps API for directions data, Free Weather API (https://www.weatherapi.com/docs/) for weather data.
