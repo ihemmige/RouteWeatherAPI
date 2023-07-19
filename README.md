@@ -9,8 +9,8 @@ GET https://routeweatherapi.azurewebsites.net/forecast?origin=ORIGIN&destination
 These endpoint includes required parameters ORIGIN and DESTINATION, and an optional parameter START_TIME, where START_TIME is the time at which the trip would begin (in epoch time, must be an integer).
 A sample 200 response is below:
 {
-    "result": [{
-    
+
+    "result": [{ 
             "city": "Franklin Township, NJ",
             "image_code": "weather/64x64/day/113.png",
             "time": 1689809100,
@@ -34,7 +34,36 @@ A sample 200 response is below:
     ]
 }
 
+The returned data includes the city and state, an image code which corresponds to a link from weatherapi.com (see below), the epoch time at which the user would pass through the city, the forecasted weather at that time, and the US zip code.
 
+GET https://routeweatherapi.azurewebsites.net/current?origin=ORIGIN&destination=DESTINATION
+These endpoint includes required parameters ORIGIN and DESTINATION.
+{
+
+    "result": [
+        {
+            "city": "Franklin Township, NJ",
+            "image_code": "weather/64x64/day/113.png",
+            "weather": "Sunny",
+            "zip_code": "08873"
+        },
+        {
+            "city": "South Brunswick Township, NJ",
+            "image_code": "weather/64x64/day/122.png",
+            "weather": "Overcast",
+            "zip_code": "08852"
+        },
+        {
+            "city": "West Windsor Township, NJ",
+            "image_code": "weather/64x64/day/122.png",
+            "weather": "Overcast",
+            "zip_code": "08540"
+        }
+    ]
+}
+
+This second endpoint includes all the same data except for the time, but the difference is that this endpoint, rather than getting the forecasted time when the user drives through the city, provides just the current weather in each of those cities.
 
 Note:
-Uses Google Maps API for directions data, weatherapi.com for weather data.
+Uses Google Maps API for directions data, Free Weather API (https://www.weatherapi.com/docs/) for weather data.
+https://www.weatherapi.com/docs/, scroll to section Weather Icons and Codes for images mentioned above.
