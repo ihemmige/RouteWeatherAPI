@@ -1,5 +1,6 @@
 from flask import Flask, request, Response, make_response
 from generation import get_trip_coordinates, generate_locations, get_current_weather, get_forecasted_weather
+import time
 
 app = Flask(__name__)
 
@@ -44,11 +45,16 @@ def get_forecast():
         success = 0
         origin = request.args.get('origin')
         destination = request.args.get('destination')
+        start_time = request.args.get('start_time')
+        if start_time: start_time = int(start_time)
         if not origin or not destination:
             response = make_response({"result": "Origin or destination not provided"})
             break
+    
+        if not start_time:
+            start_time = time.time()
         
-        coordinates = get_trip_coordinates(origin,destination)
+        coordinates = get_trip_coordinates(origin,destination,start_time)
         if type(coordinates) != list:
             response = make_response({"result": coordinates})
             break
@@ -57,8 +63,9 @@ def get_forecast():
         if type(locations_list) != list:
             response = make_response({"result": locations_list})
             break
-
-        weather = get_forecasted_weather(locations_list)
+        
+        
+        weather = get_forecasted_weather(locations_list,start_time)
         if type(weather) != list:
             response = make_response({"result": weather})
             break

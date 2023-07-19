@@ -27,7 +27,7 @@ Returns coordinates (latitude,longitude pairs) for cities along route between tw
 '''
 
 
-def get_trip_coordinates(orig, dest):
+def get_trip_coordinates(orig, dest, start_time):
 
     directions = json.loads(requests.get(
         f"https://maps.googleapis.com/maps/api/directions/json?origin={orig}&destination={dest}&key={maps_key}").content)
@@ -38,7 +38,6 @@ def get_trip_coordinates(orig, dest):
         return check_endpoints(directions["geocoded_waypoints"])
 
     start_coords, end_coords = [], []
-    start_time = time.time() - 1800
 
     cur_time = start_time
     for s in steps:
@@ -102,17 +101,16 @@ def generate_locations(coordinates_list):
 Gets the weather for each location (using the zip codes) and returns a list of locations with their forecasted
 weather at the time the user will be at the location.
 '''
-def get_forecasted_weather(locations):
+def get_forecasted_weather(locations, start_time):
     weather_conditions = []
     for loc in locations:
-        print(loc)
         zip_code = loc[0]  # zip code
         # city name (ex. Houston, Texas)
         cur_location = loc[1][:loc[1].find(",") + 4]
 
         # get the forecasted weather for the zip code. Using a max of 4 days, with assumption that any two points in United States will be within 4 days of each other.
         weather = json.loads(
-            requests.get(f"http://api.weatherapi.com/v1/forecast.json?key={weather_key}&days=4&q={zip_code}").content)
+            requests.get(f"http://api.weatherapi.com/v1/forecast.json?key={weather_key}&days=14&q={zip_code}").content)
 
         try:
             forecasts = weather["forecast"]["forecastday"]
@@ -140,8 +138,7 @@ def get_forecasted_weather(locations):
                     break
                 else: # the index is 24, so we go onto the next day
                     continue
-        except Exception as e:
-            print(e)
+        except:
             return "No weather found for one or more locations along route."
 
         try:
@@ -156,12 +153,11 @@ def get_forecasted_weather(locations):
                     "time": loc[2] # provide the exact predicted time of arrival instead of the rounded hourly time (both epoch time)
                 }
             )
-        except Exception as e:
-            print(e)
+        except:
             return "No weather found for one or more locations along route."
         
         weather_conditions[0] = get_current_weather([locations[0]])[0]
-        print(weather_conditions)
+        weather_conditions[0]["time"] = start_time
     return weather_conditions
 
 '''
