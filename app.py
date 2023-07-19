@@ -5,24 +5,34 @@ app = Flask(__name__)
 
 @app.get("/")
 def index():
-    origin = request.args.get('origin')
-    destination = request.args.get('destination')
-    if not origin or not destination:
-        return {"results": "Origin or destination not provided"}, 400
-    
-    coordinates = get_trip_coordinates(origin,destination)
-    if type(coordinates) != list:
-        return {"results": coordinates}, 400
-    
-    locations_list = generate_locations(coordinates)
-    if type(locations_list) != list:
-        return {"results": locations_list}, 400
+    while True:
+        success = 0
+        origin = request.args.get('origin')
+        destination = request.args.get('destination')
+        if not origin or not destination:
+            response = make_response({"result": "Origin or destination not provided"})
+            break
+        
+        coordinates = get_trip_coordinates(origin,destination)
+        if type(coordinates) != list:
+            response = make_response({"result": coordinates})
+            break
+        
+        locations_list = generate_locations(coordinates)
+        if type(locations_list) != list:
+            response = make_response({"result": locations_list})
+            break
 
-    weather = get_weather(locations_list)
-    if type(weather) != list:
-        return {"results": weather}, 400
+        weather = get_weather(locations_list)
+        if type(weather) != list:
+            response = make_response({"result": weather})
+            break
 
-    response = make_response({"result": weather})
+        response = make_response({"result": weather})
+        success = 1
+        break
+
     response.headers['Access-Control-Allow-Origin'] = '*'
-    # return {"results": weather}, 200
-    return response, 200
+    if success:
+        return response, 200
+    return response, 400
