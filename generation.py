@@ -2,7 +2,7 @@ import requests
 import json
 import time
 import os
-from bisect import bisect_left
+import bisect
 
 weather_key = os.getenv('WEATHER_KEY')
 maps_key = os.getenv('MAPS_KEY')
@@ -126,7 +126,7 @@ def get_forecasted_weather(locations):
                 hourly = day["hour"] # list of hourly forecasts for the day
                 
                 # use binary search to efficiently find the epoch time closest to the time the user will be at the location
-                index = bisect_left(hourly, loc[2], key=lambda x: x["time_epoch"])
+                index = bisect.bisect_left(hourly, loc[2], key=lambda x: x["time_epoch"])
                 if index > 0 and index < 24:
                     # grab the weather for the hour that is closer to target time
                     if abs(hourly[index]["time_epoch"] - loc[2]) < abs(hourly[index - 1]["time_epoch"] - loc[2]):
