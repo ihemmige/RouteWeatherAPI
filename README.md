@@ -6,7 +6,7 @@ Specifically, cities (with zip code), the forecasted weather in the city at the 
 There are currently two API endpoints.
 
 GET https://routeweatherapi.azurewebsites.net/forecast?origin=ORIGIN&destination=DESTINATION&start_time=START_TIME
-This endpoint includes required parameters ORIGIN and DESTINATION, and an optional parameter START_TIME, where START_TIME is the time at which the trip would begin (in epoch time, must be an integer).
+This endpoint includes required parameters ORIGIN and DESTINATION, and optional parameter START_TIME, where START_TIME is the time at which the trip would begin (in epoch time, must be an integer).
 A sample 200 response is below:
 {
 
