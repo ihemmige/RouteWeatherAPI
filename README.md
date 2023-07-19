@@ -7,6 +7,7 @@ There are currently two API endpoints.
 
 GET https://routeweatherapi.azurewebsites.net/forecast?origin=ORIGIN&destination=DESTINATION&start_time=START_TIME
 This endpoint includes required parameters ORIGIN and DESTINATION, and optional parameter START_TIME, where START_TIME is the time at which the trip would begin (in epoch time, must be an integer).
+
 A sample 200 response is below:
 {
 
@@ -38,7 +39,8 @@ The returned data includes the city and state, an image code which corresponds t
 
 GET https://routeweatherapi.azurewebsites.net/current?origin=ORIGIN&destination=DESTINATION
 This endpoint includes required parameters ORIGIN and DESTINATION.
-{
+
+This is an example 200 response: {
 
     "result": [
         {
@@ -63,6 +65,8 @@ This endpoint includes required parameters ORIGIN and DESTINATION.
 }
 
 This second endpoint includes all the same data except for the time, but the difference is that this endpoint, rather than getting the forecasted time when the user drives through the city, provides just the current weather in each of those cities.
+
+For both endpoints, 400 responses can be returned for a variety of bad request inputs.
 
 Further iterations on this API will involve providing an easier integrated method with a map for the user to compare routes and use weather forecasts to provide adjusted driving time estimates (in conjunction with my RouteWeatherFrontend (https://github.com/ihemmige/RouteWeatherFrontend).
 
