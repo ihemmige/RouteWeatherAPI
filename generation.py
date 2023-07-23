@@ -150,11 +150,7 @@ def get_forecasted_weather(locations, start_time):
             )
         except:
             return "No weather found for one or more locations along route."
-        
-        # for the first location, provide the current weather conditions as opposed to forecasted
-        weather_conditions[0] = get_current_weather([locations[0]])[0]
-        weather_conditions[0]["epoch_time"] = start_time
-        weather_conditions[0]["time"] = strftime("%Y-%m-%d %H:%M:%S", gmtime(start_time)) + " (UTC)"
+
     return weather_conditions
 
 '''

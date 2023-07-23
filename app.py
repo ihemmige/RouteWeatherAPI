@@ -52,8 +52,8 @@ def get_forecast():
                 if start_time < time.time():
                     response = make_response({"result": "Start time is in the past"})
                     break
-                elif start_time > time.time() + 345600:
-                    response = make_response({"result": "Start time is more than 4 days in the future"})
+                elif start_time > time.time() + 86400:
+                    response = make_response({"result": "Start time is more than 1 day in the future"})
                     break
             except:
                 response = make_response({"result": "Start time is not a valid integer"})
