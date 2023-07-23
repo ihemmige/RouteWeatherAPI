@@ -145,7 +145,7 @@ def get_forecasted_weather(locations, start_time):
                     "weather": weather_val[0]["text"],
                     "image_code": image_link,
                     "epoch_time": loc[2], # provide the exact predicted time of arrival instead of the rounded hourly time (both epoch time)
-                    "time": strftime("%Y-%m-%d %H:%M:%S", localtime(loc[2])) + " EST" # convert epoch time to human readable time
+                    "time": strftime("%Y-%m-%d %H:%M:%S", gmtime(loc[2])) + " (UTC)" # convert epoch time to human readable time
                 }
             )
         except:
@@ -154,7 +154,7 @@ def get_forecasted_weather(locations, start_time):
         # for the first location, provide the current weather conditions as opposed to forecasted
         weather_conditions[0] = get_current_weather([locations[0]])[0]
         weather_conditions[0]["epoch_time"] = start_time
-        weather_conditions[0]["time"] = strftime("%Y-%m-%d %H:%M:%S", localtime(start_time)) + " EST"
+        weather_conditions[0]["time"] = strftime("%Y-%m-%d %H:%M:%S", gmtime(start_time)) + " (UTC)"
     return weather_conditions
 
 '''
