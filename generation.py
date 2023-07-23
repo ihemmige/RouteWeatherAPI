@@ -1,6 +1,6 @@
 import requests
 import json
-import time
+from time import strftime, gmtime, localtime
 import os
 import bisect
 
@@ -144,14 +144,17 @@ def get_forecasted_weather(locations, start_time):
                     "city": cur_location,
                     "weather": weather_val[0]["text"],
                     "image_code": image_link,
-                    "time": loc[2], # provide the exact predicted time of arrival instead of the rounded hourly time (both epoch time)
+                    "epoch_time": loc[2], # provide the exact predicted time of arrival instead of the rounded hourly time (both epoch time)
+                    "time": strftime("%Y-%m-%d %H:%M:%S", localtime(loc[2])) + " EST" # convert epoch time to human readable time
                 }
             )
         except:
             return "No weather found for one or more locations along route."
         
+        # for the first location, provide the current weather conditions as opposed to forecasted
         weather_conditions[0] = get_current_weather([locations[0]])[0]
-        weather_conditions[0]["time"] = start_time
+        weather_conditions[0]["epoch_time"] = start_time
+        weather_conditions[0]["time"] = strftime("%Y-%m-%d %H:%M:%S", localtime(start_time)) + " EST"
     return weather_conditions
 
 '''
