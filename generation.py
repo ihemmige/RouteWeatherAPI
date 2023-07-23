@@ -102,9 +102,9 @@ def get_forecasted_weather(locations, start_time):
         # city name (ex. Houston, Texas)
         cur_location = loc[1][:loc[1].find(",") + 4]
 
-        # get the forecasted weather for the zip code. Using a max of 4 days, with assumption that any two points in United States will be within 4 days of each other.
+        # get the forecasted weather for the zip code. Using a max of 3 days, with assumption that any two points in United States will be within 4 days of each other.
         weather = json.loads(
-            requests.get(f"http://api.weatherapi.com/v1/forecast.json?key={weather_key}&days=14&q={zip_code}").content)
+            requests.get(f"http://api.weatherapi.com/v1/forecast.json?key={weather_key}&days=3&q={zip_code}").content)
 
         try:
             forecasts = weather["forecast"]["forecastday"]
