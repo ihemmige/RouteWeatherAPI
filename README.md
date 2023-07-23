@@ -2,7 +2,7 @@
 API that generates weather along a driving route between two given locations.
 
 This API, given an origin and destination, provides a list of waypoints along the fastest route, with weather at those waypoints.
-Specifically, cities (with zip code), the forecasted weather in the city at the time the user would pass through the city, and the time that the user would pass through the city.
+Specifically, cities (with zip code), the time that the user would pass through the city, and the forecasted weather in the city at that time.
 There are currently two API endpoints.
 
 GET https://routeweatherapi.azurewebsites.net/forecast?origin=ORIGIN&destination=DESTINATION&start_time=START_TIME
@@ -39,7 +39,7 @@ A sample 200 response is below:
         ]
     }
 
-The returned data includes the city and state, an image code which corresponds to a link from weatherapi.com (see below), the epoch time at which the user would pass through the city, the forecasted weather at that time, and the US zip code.
+The returned data includes the city and state, an image code which corresponds to a link from weatherapi.com (see below), the epoch time and human-readable time at which the user would pass through the city, the forecasted weather at that time, and the US zip code.
 
 GET https://routeweatherapi.azurewebsites.net/current?origin=ORIGIN&destination=DESTINATION
 This endpoint includes required parameters ORIGIN and DESTINATION.
@@ -75,6 +75,7 @@ For both endpoints, 400 responses can be returned for a variety of bad request i
 
 Further iterations on this API will involve using weather forecasts to provide adjusted driving time estimates and providing an easier integrated method with a map for the user to compare routes, in conjunction with my RouteWeatherFrontend (https://github.com/ihemmige/RouteWeatherFrontend).
 
-Note:
+Notes:
+CUrrently, API will only provide results for locations within the United States. Any endpoints, or route that passes through, points not in the US, will result in a 400 response.
 Uses Google Maps API for directions data, Free Weather API (https://www.weatherapi.com/docs/) for weather data.
 https://www.weatherapi.com/docs/, scroll to section Weather Icons and Codes for images mentioned above.
