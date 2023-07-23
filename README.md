@@ -9,66 +9,71 @@ GET https://routeweatherapi.azurewebsites.net/forecast?origin=ORIGIN&destination
 This endpoint includes required parameters ORIGIN and DESTINATION, and optional parameter START_TIME, where START_TIME is the time at which the trip would begin (in epoch time, must be an integer).
 
 A sample 200 response is below:
-{
 
-    "result": [{ 
-            "city": "Franklin Township, NJ",
-            "image_code": "weather/64x64/day/113.png",
-            "time": 1689809100,
-            "weather": "Sunny",
-            "zip_code": "08873"
-        },
-        {
-            "city": "South Brunswick Township, NJ",
-            "image_code": "weather/64x64/day/143.png",
-            "time": 1689809757,
-            "weather": "Mist",
-            "zip_code": "08852"
-        },
-        {
-            "city": "West Windsor Township, NJ",
-            "image_code": "weather/64x64/day/116.png",
-            "time": 1689810328,
-            "weather": "Partly cloudy",
-            "zip_code": "08540"
-        }
-    ]
-}
+    {
+        "result": [
+            {
+                "city": "Franklin Township, NJ",
+                "epoch_time": 1690153000,
+                "image_code": "weather/64x64/night/116.png",
+                "time": "2023-07-23 22:56:40 (UTC)",
+                "weather": "Partly cloudy",
+                "zip_code": "08873"
+            },
+            {
+                "city": "South Brunswick Township, NJ",
+                "epoch_time": 1690153657,
+                "image_code": "weather/64x64/day/113.png",
+                "time": "2023-07-23 23:07:37 (UTC)",
+                "weather": "Sunny",
+                "zip_code": "08852"
+            },
+            {
+                "city": "West Windsor Township, NJ",
+                "epoch_time": 1690154228,
+                "image_code": "weather/64x64/day/113.png",
+                "time": "2023-07-23 23:17:08 (UTC)",
+                "weather": "Sunny",
+                "zip_code": "08540"
+            }
+        ]
+    }
 
 The returned data includes the city and state, an image code which corresponds to a link from weatherapi.com (see below), the epoch time at which the user would pass through the city, the forecasted weather at that time, and the US zip code.
 
 GET https://routeweatherapi.azurewebsites.net/current?origin=ORIGIN&destination=DESTINATION
 This endpoint includes required parameters ORIGIN and DESTINATION.
 
-This is an example 200 response: {
-
-    "result": [
-        {
-            "city": "Franklin Township, NJ",
-            "image_code": "weather/64x64/day/113.png",
-            "weather": "Sunny",
-            "zip_code": "08873"
-        },
-        {
-            "city": "South Brunswick Township, NJ",
-            "image_code": "weather/64x64/day/122.png",
-            "weather": "Overcast",
-            "zip_code": "08852"
-        },
-        {
-            "city": "West Windsor Township, NJ",
-            "image_code": "weather/64x64/day/122.png",
-            "weather": "Overcast",
-            "zip_code": "08540"
-        }
-    ]
-}
+This is an example 200 response: 
+    
+    {
+        "result": [
+            {
+                "city": "Franklin Township, NJ",
+                "image_code": "weather/64x64/day/113.png",
+                "weather": "Sunny",
+                "zip_code": "08873"
+            },
+            {
+                "city": "South Brunswick Township, NJ",
+                "image_code": "weather/64x64/day/122.png",
+                "weather": "Overcast",
+                "zip_code": "08852"
+            },
+            {
+                "city": "West Windsor Township, NJ",
+                "image_code": "weather/64x64/day/122.png",
+                "weather": "Overcast",
+                "zip_code": "08540"
+            }
+        ]
+    }
 
 This second endpoint includes all the same data except for the time, but the difference is that this endpoint, rather than getting the forecasted time when the user drives through the city, provides just the current weather in each of those cities.
 
 For both endpoints, 400 responses can be returned for a variety of bad request inputs.
 
-Further iterations on this API will involve using weather forecasts to provide adjusted driving time estimates and providing an easier integrated method with a map for the user to compare routes (in conjunction with my RouteWeatherFrontend (https://github.com/ihemmige/RouteWeatherFrontend).
+Further iterations on this API will involve using weather forecasts to provide adjusted driving time estimates and providing an easier integrated method with a map for the user to compare routes, in conjunction with my RouteWeatherFrontend (https://github.com/ihemmige/RouteWeatherFrontend).
 
 Note:
 Uses Google Maps API for directions data, Free Weather API (https://www.weatherapi.com/docs/) for weather data.
