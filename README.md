@@ -76,6 +76,4 @@ For both endpoints, 400 responses can be returned for a variety of bad request i
 Further iterations on this API will involve using weather forecasts to provide adjusted driving time estimates and providing an easier integrated method with a map for the user to compare routes, in conjunction with my RouteWeatherFrontend (https://github.com/ihemmige/RouteWeatherFrontend).
 
 Notes: <br>
-API is hosted as a free instance on Microsoft Azure, so spins down with inactivity. As a result, when request is made to the API when it has spun down, it takes an extra minute or so to spin up and provide that first response. This is NOT a bug or malfunction. <br>
-Currently, API will only provide results for locations within the United States. Any endpoints, or route that passes through, points not in the US, will result in a 400 response. <br>
-https://www.weatherapi.com/docs/, scroll to section Weather Icons and Codes for images mentioned above.
+API is hosted as a free instance on Microsoft Azure, so spins down with inactivity. As a result, when request is made to the API when it has spun down, it takes an extra minute or so to spin up and provide that first response. This is NOT a bug or malfunction. <br> Currently, API will only provide results for locations within the United States. Any endpoints, or route that passes through, points not in the US, will result in a 400 response. <br> https://www.weatherapi.com/docs/, scroll to section Weather Icons and Codes for images mentioned above.
