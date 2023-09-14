@@ -27,6 +27,7 @@ def get_trip_coordinates(orig, dest, start_time):
 
     directions = json.loads(requests.get(
         f"https://maps.googleapis.com/maps/api/directions/json?origin={orig}&destination={dest}&key={maps_key}").content)
+    
     try:
         steps = directions["routes"][0]["legs"][0]["steps"]
     except:
