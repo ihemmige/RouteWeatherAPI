@@ -38,7 +38,6 @@ def get_current():
         return response, 200
     return response, 400
 
-
 @app.get("/forecast")
 def get_forecast():
     while True:

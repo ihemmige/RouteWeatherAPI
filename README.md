@@ -1,5 +1,5 @@
 # RouteWeatherAPI
-API that generates weather along a driving route between two given locations.
+API generates weather along a driving route between two given locations.
 
 This API, given an origin and destination, provides a list of waypoints along the fastest route, with weather at those waypoints.
 Specifically, cities (with zip code), the time that the user would pass through the city, and the forecasted weather in the city at that time.
