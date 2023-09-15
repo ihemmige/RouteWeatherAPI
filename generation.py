@@ -31,7 +31,10 @@ def get_trip_coordinates(orig, dest, start_time):
         steps = directions["routes"][0]["legs"][0]["steps"]
     except:
         # determine whether the origin, destination, or both are invalid. Otherwise, there is no route for these locations.
-        return check_endpoints(directions["geocoded_waypoints"])
+        try:
+            return check_endpoints(directions["geocoded_waypoints"])
+        except:
+            return "Unknown error."
 
     start_coords, end_coords = [], []
     cur_time = start_time
