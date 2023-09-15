@@ -27,7 +27,6 @@ def get_trip_coordinates(orig, dest, start_time):
 
     directions = json.loads(requests.get(
         f"https://maps.googleapis.com/maps/api/directions/json?origin={orig}&destination={dest}&key={maps_key}").content)
-    
     try:
         steps = directions["routes"][0]["legs"][0]["steps"]
     except:
@@ -35,7 +34,6 @@ def get_trip_coordinates(orig, dest, start_time):
         return check_endpoints(directions["geocoded_waypoints"])
 
     start_coords, end_coords = [], []
-
     cur_time = start_time
     for s in steps:
         start_coords.append(s["start_location"])
