@@ -34,7 +34,7 @@ def get_trip_coordinates(orig, dest, start_time):
         try:
             return check_endpoints(directions["geocoded_waypoints"])
         except:
-            return "Unknown error."
+            return "Unknown error. Please try again later."
 
     start_coords, end_coords = [], []
     cur_time = start_time
