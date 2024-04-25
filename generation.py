@@ -24,7 +24,6 @@ def check_endpoints(waypoints):
 Returns coordinates (latitude,longitude pairs) for cities along route between two given locations (orig, dest)
 '''
 def get_trip_coordinates(orig, dest, start_time):
-
     directions = json.loads(requests.get(
         f"https://maps.googleapis.com/maps/api/directions/json?origin={orig}&destination={dest}&key={maps_key}").content)
     try:
